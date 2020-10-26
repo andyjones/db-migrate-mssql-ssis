@@ -1,3 +1,6 @@
+# ASDF
+.tool-versions
+
 # Logs
 logs
 *.log
