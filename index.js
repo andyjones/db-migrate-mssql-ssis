@@ -1,22 +1,25 @@
 var MssqlDriver = require('db-migrate-mssql');
 var Promise = require('bluebird');
 
-var MssqlSsisDriver = MssqlDriver.extend({
+const GO_DELIMITER = /^\s*GO\s*$/im
+
+// db-migrate uses https://johnresig.com/blog/simple-javascript-inheritance/
+var MssqlSsisDriver = MssqlDriver.base.extend({
   runSql: function (...args) {
     if (this._looksLikeBatchScript(args[0])) {
       return this._runBatchScript(...args)
     }
     else {
-      return super(...args)
+      return this._super(...args)
     }
   },
 
   _looksLikeBatchScript: function (script) {
-      return script.match(/^\s*GO\s*$/im);
+      return script.match(GO_DELIMITER);
   },
 
   _scriptToBulkStatements: function (script) {
-      return scripts.split(/^GO\s*$/im).filter(s => s);
+      return scripts.split(GO_DELIMITER).filter(s => s);
   },
 
   _runBatchScript: function () {
