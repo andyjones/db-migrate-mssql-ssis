@@ -38,10 +38,10 @@ var MssqlSsisDriver = MssqlDriver.base.extend({
     // using a promiseChain to ensure that a statement only starts running after the previous statement has completed
     // Note: promiseChain === initialPromise
     // on the first time through this function
-    const transaction = new db.connection.Transaction();
+    const transaction = new this.connection.Transaction();
     return transaction.begin()
       .then(_ => {
-          const request = new db.connection.Request(transaction);
+          const request = new this.connection.Request(transaction);
           request.multiple = true;
 
           const initialPromise = Promise.resolve([]);
