@@ -4,23 +4,23 @@ var mssql = require('mssql');
 
 const GO_DELIMITER = /^\s*GO\s*$/im
 
+exports.looksLikeBatchScript = function (script) {
+    return script.match(GO_DELIMITER);
+}
+
+exports.scriptToBulkStatements = function (script) {
+    return script.split(GO_DELIMITER).map(s => s.trim()).filter(s => s);
+}
+
 // db-migrate uses https://johnresig.com/blog/simple-javascript-inheritance/
 var MssqlSsisDriver = MssqlDriver.base.extend({
   runSql: function (...args) {
-    if (this._looksLikeBatchScript(args[0])) {
+    if (looksLikeBatchScript(args[0])) {
       return this._runBatchScript(...args)
     }
     else {
       return this._super(...args)
     }
-  },
-
-  _looksLikeBatchScript: function (script) {
-      return script.match(GO_DELIMITER);
-  },
-
-  _scriptToBulkStatements: function (script) {
-      return scripts.split(GO_DELIMITER).filter(s => s);
   },
 
   _runBatchScript: function () {
@@ -31,7 +31,7 @@ var MssqlSsisDriver = MssqlDriver.base.extend({
       callback = arguments[arguments.length - 1];
     }
 
-    const statements = this._scriptToBulkStatements(params[0]);
+    const statements = scriptToBulkStatements(params[0]);
 
     // Run each statement in order
     // using a promiseChain to ensure that a statement only starts running after the previous statement has completed
