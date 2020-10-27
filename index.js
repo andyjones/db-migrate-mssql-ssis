@@ -24,15 +24,15 @@ var MssqlSsisDriver = MssqlDriver.base.extend({
     }
   },
 
-  _runBatchScript: function () {
+  _runBatchScript: function (script, ...args) {
     var callback;
     var params;
 
-    if (typeof arguments[arguments.length - 1] === 'function') {
-      callback = arguments[arguments.length - 1];
+    if (typeof args[args.length - 1] === 'function') {
+      callback = arguments[args.length - 1];
     }
 
-    const statements = scriptToBulkStatements(params[0]);
+    const statements = scriptToBulkStatements(script);
 
     // Run each statement in order
     // using a promiseChain to ensure that a statement only starts running after the previous statement has completed
