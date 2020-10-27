@@ -46,6 +46,7 @@ var MssqlSsisDriver = MssqlDriver.base.extend({
           const initialPromise = Promise.resolve([]);
           return statements.reduce((previousPromise, statement) => {
               return previousPromise.then(_ => {
+                  this.log.sql(statement);
                   return request.batch(statement);
               });
           }, initialPromise)
