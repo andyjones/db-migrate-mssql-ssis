@@ -4,13 +4,14 @@ var mssql = require('mssql');
 
 const GO_DELIMITER = /^\s*GO\s*$/im
 
-exports.looksLikeBatchScript = function (script) {
+const looksLikeBatchScript = function (script) {
     return script.match(GO_DELIMITER);
 }
 
-exports.scriptToBulkStatements = function (script) {
+const scriptToBulkStatements = function (script) {
     return script.split(GO_DELIMITER).map(s => s.trim()).filter(s => s);
 }
+exports.scriptToBulkStatements = scriptToBulkStatements;
 
 // db-migrate uses https://johnresig.com/blog/simple-javascript-inheritance/
 var MssqlSsisDriver = MssqlDriver.base.extend({
