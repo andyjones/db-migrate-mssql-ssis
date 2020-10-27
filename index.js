@@ -1,5 +1,6 @@
 var MssqlDriver = require('db-migrate-mssql');
 var Promise = require('bluebird');
+var mssql = require('mssql');
 
 const GO_DELIMITER = /^\s*GO\s*$/im
 
