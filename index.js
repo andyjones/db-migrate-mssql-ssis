@@ -26,10 +26,9 @@ var MssqlSsisDriver = MssqlDriver.base.extend({
 
   _runBatchScript: function (script, ...args) {
     var callback;
-    var params;
 
     if (typeof args[args.length - 1] === 'function') {
-      callback = arguments[args.length - 1];
+      callback = args[args.length - 1];
     }
 
     const statements = scriptToBulkStatements(script);
@@ -39,7 +38,7 @@ var MssqlSsisDriver = MssqlDriver.base.extend({
     // Note: promiseChain === initialPromise
     // on the first time through this function
     const transaction = new this.connection.Transaction();
-    return transaction.begin()
+    return Promise.resolve(transaction.begin())
       .then(_ => {
           const request = new this.connection.Request(transaction);
           request.multiple = true;
