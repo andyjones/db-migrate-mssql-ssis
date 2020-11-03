@@ -12,7 +12,7 @@ const config = {
     driver: 'mssql-ssis',
     multipleStatements: true,
     host: process.env.MSSQL_HOST,
-    port: process.env.MSSQL_PORT | 0, // envvars are strings, ports must be an integer
+    port: process.env.MSSQL_PORT,
     database: process.env.MSSQL_DATABASE,
     user: process.env.MSSQL_USERNAME,
     password: process.env.MSSQL_PASSWORD,

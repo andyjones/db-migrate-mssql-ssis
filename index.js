@@ -65,6 +65,9 @@ exports.connect = function (config, intern, callback) {
         config.database = 'mssql';
     }
     config.server = config.server || config.host;
+    if (typeof config.port === 'string') {
+        config.port = Number(config.port);
+    }
 
     mssql
         .connect(config)
