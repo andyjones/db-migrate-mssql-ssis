@@ -1,6 +1,6 @@
 {
     "name": "db-migrate-mssql-ssis",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A mssql driver for db-migrate that supports SSIS scripts",
     "main": "index.js",
     "scripts": {
